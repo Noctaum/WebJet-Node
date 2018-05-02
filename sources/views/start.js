@@ -13,7 +13,7 @@ export default class Start extends JetView{
 					width: 37, 
 					align: "left", 
 					click: ()=>{
-						this.$$("sidebar").toggle();
+						this.getRoot().queryView({view:"sidebar"}).toggle();
 					}
 				},
 				{ view: "label", label: "My App"},
@@ -22,7 +22,6 @@ export default class Start extends JetView{
 
 		let sidebar = { 
 			view: "sidebar",
-			id:"sidebar",
 			data:[
 				{id:"table", icon: "film", value: "Films"},
 				{id:"table2", icon: "users", value: "Users"},
@@ -31,7 +30,8 @@ export default class Start extends JetView{
 			],
 			on:{
 				onAfterSelect: (id)=>{
-					this.show(`../start/${this.$$("sidebar").getItem(id).id}`);
+					let sidebar = this.getRoot().queryView({view:"sidebar"});
+					this.show(`../start/${sidebar.getItem(id).id}`);
 				}
 			}
 		};
@@ -48,6 +48,7 @@ export default class Start extends JetView{
 
 	}
 	ready(){
-		this.$$("sidebar").select(this.$$("sidebar").getFirstId());
+		let sidebar = this.getRoot().queryView({view:"sidebar"});
+		sidebar.select(sidebar.getFirstId());
 	}
 }

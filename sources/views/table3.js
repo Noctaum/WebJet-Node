@@ -8,12 +8,11 @@ export default class DataTable extends JetView{
 
 		let list = {
 			view:"list",
-			id:"list",
 			select:true,
 			on:{
 				onAfterSelect: ()=> {
-					this.$$("table3").filter((data)=>{
-						let values = this.$$("list").getSelectedItem();
+					this.getRoot().queryView({view:"datatable"}).filter((data)=>{
+						let values = this.getRoot().queryView({view:"list"}).getSelectedItem();
 						return data.category == values.id;
 					});
 				}
@@ -22,7 +21,6 @@ export default class DataTable extends JetView{
 
 		let datatable = {
 			view: "datatable",
-			id:"table3",
 			datatype:"json",
 			select:true,
 			editable:true,
@@ -36,13 +34,14 @@ export default class DataTable extends JetView{
 			],
 			on:{
 				onAfterEditStop:()=>{
-					let values = this.$$("table3").getSelectedItem();
-					this.$$("table3").updateItem(values.id, values);
-					this.$$("wer").setValues(values);
+					let datatable = this.getRoot().queryView({view:"datatable"});
+					let values = datatable.getSelectedItem();
+					datatable.updateItem(values.id, values);
+					this.getRoot().queryView({view:"template", name:"review"}).setValues(values);
 				},
 				onAfterSelect: ()=> {
-					let values = this.$$("table3").getSelectedItem();
-					this.$$("wer").setValues(values);
+					let values = this.getRoot().queryView({view:"datatable"}).getSelectedItem();
+					this.getRoot().queryView({view:"template", name:"review"}).setValues(values);
 				}
 			}
 		};
@@ -63,17 +62,17 @@ export default class DataTable extends JetView{
 		let form =
 		{	
 			view:"template",
+			name:"review",
 			gravity:3,
-			id:"wer",
 			template:templ,
 		};
 
 		return  {cols:[list, datatable, form]};
 	}
 	
-	init(){
-		this.$$("table3").sync(data1);
-		this.$$("list").sync(categories);
+	init(view){
+		view.queryView({view:"datatable"}).sync(data1);
+		view.queryView({view:"list"}).sync(categories);
 	}
 }
 

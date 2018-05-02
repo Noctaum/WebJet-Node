@@ -7,7 +7,6 @@ export default class DataTable extends JetView{
 		let datatable = {
 			view: "datatable",
 			datatype:"json",
-			id:"table2",
 			select:true,
 			editable:true,
 			editaction:"dblclick",
@@ -19,20 +18,17 @@ export default class DataTable extends JetView{
 				{id:"text", editor:"text", header: ["Some information" ,{content:"serverFilter"}], sort:"server",fillspace:1},
 				{id:"value", editor:"text", header: ["More" ,{content:"serverFilter"}], sort:"server",fillspace:1},
 			],
+			url:"http://localhost:8096/data2",
 			save:"rest->http://localhost:8096/data2",
 			on:{
 				onAfterEditStop:()=>{
-					let values = this.$$("table2").getSelectedItem();
-					this.$$("table2").updateItem(values.id, values);
+					let datatable = this.getRoot().queryView({view:"datatable"});
+					let values = datatable.getSelectedItem();
+					datatable.updateItem(values.id, values);
 				}
 			}
 		};
-
 		return  datatable;
-	}
-	
-	init(){
-		this.$$("table2").load("http://localhost:8096/data2");
 	}
 }
 

@@ -1,14 +1,28 @@
 
-var bodyParser     = require('body-parser'),
-    mongoose       = require("mongoose"),
-    cors           = require('cors'),
-	express        = require('express'),
-	app            = express();
-
+const bodyParser     = require('body-parser'),
+      mongoose       = require("mongoose"),
+      cors           = require('cors'),
+      multer         = require('multer'),
+	  express        = require('express'),
+	  app            = express();
 
 mongoose.connect("mongodb://localhost/task1DB");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use('/uploads', express.static('uploads'));
 app.use(cors());
+
+let storage = multer.diskStorage({
+	destination: function(req, file, cb){
+		cb(null, './uploads/');
+	},
+	filename: function(req, file, cb){
+		cb(null, new Date().toISOString());
+	}
+});
+
+let upload = multer({storage: storage});
+
+
 
 //////////////ALL FOR FIRST TABLE//////////////
 
@@ -160,8 +174,11 @@ app.put('/data2/:id', function(req, res){
 //////////////ALL FOR THIRD TABLE (Settings)//////////////
 
 var filesSchema = new mongoose.Schema({
-	filmName:String,
-    image:String
+	filmName: String,
+    realName: String,
+    path:     String,
+    type:     String,
+    date:     {type: Date, default: Date.now}
 });
 
 let files = mongoose.model("files", filesSchema);
@@ -176,15 +193,22 @@ app.get('/files', function(req, res){
 	});
 });
 
-// app.post('/files',function(req, res){
-// 	files.create(req.body, function(err, newFilm){
-// 		if(err){
-// 			console.log("ERROR!");
-// 		} else{
-// 			res.json({});
-// 		}
-// 	});
-// });	
+app.post('/files', upload.single('upload'), function(req, res){
+	console.log(req.file);
+	console.log(req.body);
+	files.create({
+		filmName: req.body.name,
+   		realName: req.file.originalname,
+    	path:     req.file.path,
+    	type:     req.file.mimetype
+	}, function(err, newFilm){
+		if(err){
+			console.log("ERROR!");
+		} else{
+			res.json({});
+		}
+	});
+});	
 
 app.listen(8096, function(){
     console.log("Started!");

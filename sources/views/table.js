@@ -13,6 +13,9 @@ export default class DataTable extends JetView{
 				{
 					view: "button", 
 					label: "экспорт в excel",
+					click:()=>{
+						webix.toExcel(this.getRoot().queryView({view:"datatable"}));
+					}
 				},
 				{
 					view: "button", 
@@ -23,7 +26,6 @@ export default class DataTable extends JetView{
 		//Table
 		let datatable = {
 			view: "datatable",
-			id:"data",
 			datatype:"json",
 			select:true,
 			columns:[
@@ -34,7 +36,8 @@ export default class DataTable extends JetView{
 			],
 			on:{
 				onAfterSelect: ()=> {
-					let values = this.$$("data").getSelectedItem();
+					let datatable = this.getRoot().queryView({view:"datatable"});
+					let values = datatable.getSelectedItem();
 					this.app.callEvent("dataEdit", [values]);
 					this._jetPopup.showWindow();
 				}
@@ -44,9 +47,9 @@ export default class DataTable extends JetView{
 		return {rows:[header, datatable]};
 	}
 	
-	init(){
+	init(view){
 		this._jetPopup = this.ui(WindowEdit);
-		this.$$("data").sync(data1);
+		view.queryView({view:"datatable"}).sync(data1);
 	}
 }
 

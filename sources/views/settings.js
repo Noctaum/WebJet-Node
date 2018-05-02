@@ -160,8 +160,7 @@ export default class DataTable extends JetView{
 			multiple:false,
 			id:"uploadImg",
 			accept:"image/jpeg, image/png",
-			name:"image",
-			//upload:"http://localhost:8096/files",
+			upload:"http://localhost:8096/files",
 			on:{
 				onAfterFileAdd:(upload)=>{
 					let file = upload.file;
@@ -190,26 +189,11 @@ export default class DataTable extends JetView{
 			view: "button", 
 			label: "Upload to server",
 			click:()=>{
-
-				//this.$$("uploadImg").send();
-
-				let values = this.$$("form").getValues();
-				values.filmName = this.$$("select").getText();
-
-				let promise = new Promise((resolve)=>{
-					this.$$("uploadImg").files.data.each(function(file){
-						let reader = new FileReader(); 
-						reader.onload = (event) => {
-							resolve(event.target.result);
-						};   
-						reader.readAsDataURL(file.file);
-					});
+				this.$$("uploadImg").files.data.each((file)=>{
+					file.formData = {name:this.$$("select").getText()};
+					this.$$("uploadImg").send(file.id);
 				});
-				promise.then((result)=>{
-					values.image = result;
-					files.add(values);
-					this.$$("img").setValues({});
-				});
+				this.$$("img").setValues({});
 			}
 		};
 
