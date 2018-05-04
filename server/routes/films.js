@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router({mergeParams: true});
-var films = require("../models/films");
+const 	express = require("express"),
+		router = express.Router({mergeParams: true}),
+		films = require("../models/films");
 
 let metodsData1 = {
 	saveData: function(req, res){
