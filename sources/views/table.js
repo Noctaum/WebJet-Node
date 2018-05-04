@@ -40,9 +40,10 @@ export default class DataTable extends JetView{
 					let values = datatable.getSelectedItem();
 					this.app.callEvent("dataEdit", [values]);
 					this._jetPopup.showWindow();
-				}
+				},
 			}
 		};
+
 
 		return {rows:[header, datatable]};
 	}
@@ -50,6 +51,9 @@ export default class DataTable extends JetView{
 	init(view){
 		this._jetPopup = this.ui(WindowEdit);
 		view.queryView({view:"datatable"}).sync(data1);
+		this.on(this.app, "dataEdit", () => {
+			view.queryView({view:"datatable"}).filterByAll();
+		});
 	}
 }
 

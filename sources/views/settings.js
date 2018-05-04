@@ -1,7 +1,6 @@
 import {JetView} from "webix-jet";
 import {data1} from "models/data1";
 import {categories} from "models/categories";
-import {files} from "models/files";
 
 export default class DataTable extends JetView{
 	config(){

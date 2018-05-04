@@ -69,6 +69,7 @@ export default class WindowEdit extends JetView{
 		popForm.clear();
 		popForm.clearValidation();
 		this.getRoot().hide();
+		this.app.callEvent("dataEdit", [{}]);
 	}
 }
 

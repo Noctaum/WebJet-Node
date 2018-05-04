@@ -22,8 +22,6 @@ let storage = multer.diskStorage({
 
 let upload = multer({storage: storage});
 
-
-
 //////////////ALL FOR FIRST TABLE//////////////
 
 let filmsSchema = new mongoose.Schema({
