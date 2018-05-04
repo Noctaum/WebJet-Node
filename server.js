@@ -192,8 +192,6 @@ app.get('/files', function(req, res){
 });
 
 app.post('/files', upload.single('upload'), function(req, res){
-	console.log(req.file);
-	console.log(req.body);
 	files.create({
 		filmName: req.body.name,
    		realName: req.file.originalname,
