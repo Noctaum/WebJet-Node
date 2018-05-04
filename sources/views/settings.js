@@ -131,6 +131,7 @@ export default class DataTable extends JetView{
 					data1.remove(val[i]);
 				}
 				this.$$("multi1").refresh();
+				this.$$("multi1").setValue();
 			}
 		};
 
