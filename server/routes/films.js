@@ -14,19 +14,19 @@ let metodsData1 = {
 	},
 	showData: function(req, res){
 		films.find({}, function(err, data){
-		    if(err){
-		        console.log("ERROR!");
-		    } else{
-		        res.json(data);
-		    }
+			if(err){
+				console.log("ERROR!");
+			} else{
+				res.json(data);
+			}
 		});
 	},
 	deleteData: function(req, res){
 		films.findByIdAndRemove(req.body._id, function(err){
-    		if(err){
-    			console.log("ERROR!");
-    		} else{
-    			res.json({});
+			if(err){
+				console.log("ERROR!");
+			} else{
+				res.json({});
 			}
 		});
 	},

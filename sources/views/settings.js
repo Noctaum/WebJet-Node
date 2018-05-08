@@ -18,59 +18,71 @@ export default class DataTable extends JetView{
 			view:"toolbar", elements:[
 				//Select for Name
 				{view:"label", label:"Select"},
-				{view:"richselect", id:"Name", suggest:{
-					view:"gridsuggest",
-					textValue:"Name",
-					body:{
-						autoConfig:true,
-						columns:[{id:"Name"}],
-						data:data1
-					}
-				},
-				on:{ onChange:()=>filter("Name") }
+				{
+					view:"richselect", 
+					id:"Name", 
+					suggest:{
+						view:"gridsuggest",
+						textValue:"Name",
+						body:{
+							autoConfig:true,
+							columns:[{id:"Name"}],
+							data:data1
+						}
+					},
+					on:{ onChange:()=>filter("Name") }
 				},
 				//Select for year
-				{view:"richselect", id:"year", suggest:{
-					view:"gridsuggest",
-					textValue:"year",
-					body:{
-						autoConfig:true,
-						columns:[{id:"Name"},{id:"year"}],
-						data:data1,
-					}
-				},
-				on:{ onChange:()=>filter("year") }
+				{
+					view:"richselect", 
+					id:"year", 
+					suggest:{
+						view:"gridsuggest",
+						textValue:"year",
+						body:{
+							autoConfig:true,
+							columns:[{id:"Name"},{id:"year"}],
+							data:data1,
+						}
+					},
+					on:{ onChange:()=>filter("year") }
 				},
 				//Select for author
-				{view:"richselect", id:"author", suggest:{
-					view:"gridsuggest",
-					textValue:"author",
-					body:{
-						autoConfig:true,
-						columns:[{id:"Name"},{id:"author"}],
-						data:data1
-					}
-				},
-				on:{ onChange:()=>filter("author") }
+				{
+					view:"richselect", 
+					id:"author", 
+					suggest:{
+						view:"gridsuggest",
+						textValue:"author",
+						body:{
+							autoConfig:true,
+							columns:[{id:"Name"},{id:"author"}],
+							data:data1
+						}
+					},
+					on:{ onChange:()=>filter("author") }
 				},
 				//Select for category
-				{view:"richselect", id:"categor", suggest:{
-					view:"gridsuggest",
-					textValue:"value",
-					body:{
-						autoConfig:true,
-						columns:[{id:"value"}],
-						data:categories
+				{
+					view:"richselect", 
+					id:"categor", 
+					suggest:{
+						view:"gridsuggest",
+						textValue:"value",
+						body:{
+							autoConfig:true,
+							columns:[{id:"value"}],
+							data:categories
+						}
+					},
+					on:{
+						onChange:(category)=>{
+							this.$$("dataTab").filter((data)=>{
+								return data.category == category;
+							},"",true);
+							this.$$("categor").disable();
+						}
 					}
-				},
-				on:{
-					onChange:(category)=>{
-						this.$$("dataTab").filter((data)=>{
-							return data.category == category;
-						},"",true);
-						this.$$("categor").disable();
-					}
-				}
 				},
 			]
 		};

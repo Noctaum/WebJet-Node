@@ -6,10 +6,10 @@ router.get("/data2", function(req, res){
 	if(req.query.sort){
 		users.find({}).sort(req.query.sort).exec(function(err, data) {
 			if(err){
-	            console.log("ERROR!");
-	        } else{
-	            res.json(data);
-	        }
+				console.log("ERROR!");
+			} else{
+				res.json(data);
+			}
 		});
 	}
 	else if(req.query.filter && req.query.start == 0){
@@ -21,32 +21,32 @@ router.get("/data2", function(req, res){
 			value: new RegExp(user.value, 'i'),
 		}
 		users.find(userFilter, function(err, data){
-	        if(err){
-	            console.log("ERROR!");
-	        } else{
-	            res.json(data);
-	        }
-	    });
+			if(err){
+				console.log("ERROR!");
+			} else{
+				res.json(data);
+			}
+		});
 	} else {
-	    users.find({}, function(err, data){
-	        if(err){
-	            console.log("ERROR!");
+		users.find({}, function(err, data){
+			if(err){
+				console.log("ERROR!");
 			} else {
-	        	if(req.query.start){
-	        		let info = {
-	        			data: data.slice(req.query.start,(+req.query.start)+(+req.query.count)),
-	        			pos: req.query.start,
-    				}
-	        		res.json(info);
-	        	} else {
-	            	res.json({
-	            		data: data.slice(0,10),
-	            		pos: 0,
-	            		total_count: data.length,
-	            	});
-	        	}
-	        }
-	    });
+				if(req.query.start){
+					let info = {
+						data: data.slice(req.query.start,(+req.query.start)+(+req.query.count)),
+						pos: req.query.start,
+					}
+					res.json(info);
+				} else {
+					res.json({
+						data: data.slice(0,10),
+						pos: 0,
+						total_count: data.length,
+					});
+				}
+			}
+		});
 	}
 });
 
